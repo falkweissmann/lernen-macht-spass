@@ -1,0 +1,144 @@
+/* offline.css - Spezifische Styles für Offline-Seite */
+
+.offline-page {
+  background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  margin: 0;
+  padding: 1rem;
+}
+
+.offline-container {
+  max-width: 500px;
+  width: 100%;
+  background: var(--bg-secondary);
+  border-radius: 2rem;
+  padding: 2rem;
+  text-align: center;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--border);
+}
+
+.offline-icon {
+  font-size: 5rem;
+  margin-bottom: 1rem;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.offline-container h1 {
+  margin: 0 0 0.5rem 0;
+  color: var(--text-primary);
+}
+
+.offline-container p {
+  color: var(--text-secondary);
+  margin-bottom: 2rem;
+}
+
+.offline-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.btn-primary, .btn-secondary {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 2rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: transform 0.2s, background 0.2s;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: white;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  background: var(--accent-hover);
+}
+
+.btn-secondary {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+}
+
+.btn-secondary:hover {
+  transform: translateY(-2px);
+  background: var(--accent);
+  color: white;
+}
+
+.cached-info {
+  background: var(--bg-primary);
+  border-radius: 1rem;
+  padding: 1rem;
+  text-align: left;
+}
+
+.cached-info h3 {
+  margin: 0 0 0.75rem 0;
+  font-size: 1rem;
+}
+
+.cached-info ul {
+  margin: 0;
+  padding-left: 1.5rem;
+}
+
+.cached-info li {
+  margin: 0.5rem 0;
+  color: var(--success);
+}
+
+.progress-indicator {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: var(--bg-primary);
+  border-radius: 0.5rem;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  margin: 0 auto 0.5rem;
+  border: 3px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .offline-container {
+    padding: 1.5rem;
+  }
+  
+  .offline-icon {
+    font-size: 3rem;
+  }
+  
+  .offline-actions {
+    flex-direction: column;
+  }
+  
+  .btn-primary, .btn-secondary {
+    width: 100%;
+  }
+}

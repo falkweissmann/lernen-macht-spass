@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Thema - MathLern</title>
+  
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#3b82f6">
+  <link rel="apple-touch-icon" href="icons/icon-192x192.png">
+  
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  
+  <style>
+    .topic-container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .topic-header {
+      text-align: center;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid var(--border, #e2e8f0);
+    }
+    .topic-icon {
+      font-size: 3rem;
+    }
+    .topic-header h1 {
+      font-size: 2rem;
+      margin: 0.5rem 0;
+    }
+    .topic-meta {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin: 1rem 0;
+      color: var(--text-secondary, #64748b);
+    }
+    .topic-description {
+      font-size: 1.1rem;
+      color: var(--text-secondary, #64748b);
+    }
+    .topic-content-container {
+      margin: 2rem 0;
+    }
+    .content-text {
+      margin: 1.5rem 0;
+      line-height: 1.6;
+    }
+    .content-image {
+      margin: 1.5rem 0;
+      text-align: center;
+    }
+    .content-image img {
+      max-width: 100%;
+      border-radius: 0.5rem;
+    }
+    .content-video {
+      margin: 1.5rem 0;
+    }
+    .video-container {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+    }
+    .video-container iframe,
+    .video-container video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 0.5rem;
+    }
+    .content-hint {
+      margin: 1.5rem 0;
+      padding: 1rem;
+      background: #fef3c7;
+      border-left: 4px solid #f59e0b;
+      border-radius: 0.5rem;
+    }
+    .dark-mode .content-hint {
+      background: #451a03;
+    }
+    .content-spoiler {
+      margin: 1.5rem 0;
+    }
+    details {
+      background: var(--bg-secondary, white);
+      border: 1px solid var(--border, #e2e8f0);
+      border-radius: 0.5rem;
+      padding: 0.5rem;
+    }
+    summary {
+      cursor: pointer;
+      font-weight: bold;
+      padding: 0.5rem;
+    }
+    .spoiler-content {
+      padding: 1rem;
+      border-top: 1px solid var(--border, #e2e8f0);
+      margin-top: 0.5rem;
+    }
+    .content-quote {
+      margin: 1.5rem 0;
+    }
+    blockquote {
+      margin: 0;
+      padding: 1rem 2rem;
+      background: var(--bg-secondary, #f1f5f9);
+      border-left: 4px solid #3b82f6;
+      font-style: italic;
+      border-radius: 0.5rem;
+    }
+    .content-separator {
+      margin: 2rem 0;
+      border: none;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border, #e2e8f0), transparent);
+    }
+    .math-display {
+      margin: 1.5rem 0;
+      padding: 1rem;
+      background: var(--bg-secondary, #f1f5f9);
+      border-radius: 0.5rem;
+      text-align: center;
+      font-family: monospace;
+      font-size: 1.2rem;
+      overflow-x: auto;
+    }
+    .btn-complete {
+      width: 100%;
+      padding: 1rem;
+      background: #10b981;
+      color: white;
+      border: none;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-top: 2rem;
+    }
+    .btn-complete:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+    .loading {
+      text-align: center;
+      padding: 2rem;
+    }
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid #e2e8f0;
+      border-top-color: #3b82f6;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 1rem;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    .error {
+      color: #dc2626;
+      text-align: center;
+      padding: 2rem;
+    }
+    .back-button {
+      padding: 0.5rem 1rem;
+      margin-bottom: 1rem;
+      cursor: pointer;
+      background: #e2e8f0;
+      border: none;
+      border-radius: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <h2>📚 MathLern</h2>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="index.html" class="nav-link">🏠 Dashboard</a>
+        <a href="profile.html" class="nav-link">🏆 Profil</a>
+      </nav>
+      <div class="sidebar-footer">
+        <button id="darkModeToggle" class="sidebar-btn">🌓 Dark Mode</button>
+        <button id="backToDashboard" class="sidebar-btn">← Zurück</button>
+      </div>
+    </aside>
+    
+    <main class="content" id="mainContent">
+      <div class="topic-container">
+        <div id="topicLoading" class="loading">
+          <div class="spinner"></div>
+          <p>Lade Thema...</p>
+        </div>
+        <div id="topicView" style="display: none;"></div>
+      </div>
+    </main>
+  </div>
+
+  <script type="module">
+    import * as storage from './js/storage.js';
+    import { gamification } from './js/gamification.js';
+    
+    // Content-Renderer (einfache Version ohne externe Abhängigkeiten)
+    function renderContentBlock(block) {
+      const type = block.type;
+      
+      switch(type) {
+        case 'text':
+          return `<div class="content-text">${block.content || ''}</div>`;
+        
+        case 'image':
+          return `
+            <div class="content-image">
+              <img src="${block.url || ''}" alt="${block.alt || ''}" loading="lazy">
+              ${block.caption ? `<p class="caption">${block.caption}</p>` : ''}
+            </div>
+          `;
+        
+        case 'video':
+          const isYouTube = block.url?.includes('youtube.com') || block.url?.includes('youtu.be');
+          if (isYouTube) {
+            let videoId = block.url.split('v=')[1];
+            if (!videoId) videoId = block.url.split('/').pop();
+            const embedUrl = `https://www.youtube.com/embed/${videoId}`;
+            return `
+              <div class="content-video">
+                <div class="video-container">
+                  <iframe src="${embedUrl}" frameborder="0" allowfullscreen></iframe>
+                </div>
+                ${block.caption ? `<p class="caption">${block.caption}</p>` : ''}
+              </div>
+            `;
+          }
+          return `<div class="content-video">Video: ${block.url}</div>`;
+        
+        case 'math':
+          // Einfache Math-Darstellung ohne KaTeX
+          return `<div class="math-display">${block.content || ''}</div>`;
+        
+        case 'hint':
+          return `
+            <div class="content-hint">
+              <strong>${block.title || '💡 Tipp'}</strong>
+              <p>${block.content || ''}</p>
+            </div>
+          `;
+        
+        case 'spoiler':
+          return `
+            <div class="content-spoiler">
+              <details>
+                <summary>${block.title || '🔒 Lösung anzeigen'}</summary>
+                <div class="spoiler-content">${block.content || ''}</div>
+              </details>
+            </div>
+          `;
+        
+        case 'quote':
+          return `
+            <div class="content-quote">
+              <blockquote>
+                <p>${block.content || ''}</p>
+                ${block.author ? `<footer>— ${block.author}</footer>` : ''}
+              </blockquote>
+            </div>
+          `;
+        
+        case 'separator':
+          return '<hr class="content-separator">';
+        
+        default:
+          return `<div class="content-text">⚠️ Unbekannter Inhaltstyp: ${type}</div>`;
+      }
+    }
+    
+    function renderContentArray(contentArray) {
+      if (!contentArray || !Array.isArray(contentArray)) {
+        return '<p>Kein Inhalt vorhanden.</p>';
+      }
+      return contentArray.map(block => renderContentBlock(block)).join('');
+    }
+    
+    async function loadTopic() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const topicId = urlParams.get('id');
+      
+      if (!topicId) {
+        showError('Keine Themen-ID angegeben');
+        return;
+      }
+      
+      try {
+        await gamification.init();
+        
+        const response = await fetch('./data/topics.json');
+        const data = await response.json();
+        const topics = data.topics || data;
+        const topic = topics.find(t => t.id === topicId);
+        
+        if (!topic) {
+          showError('Thema nicht gefunden');
+          return;
+        }
+        
+        renderTopic(topic);
+        
+      } catch (error) {
+        console.error('Fehler:', error);
+        showError('Fehler beim Laden des Themas: ' + error.message);
+      }
+    }
+    
+    function renderTopic(topic) {
+      const container = document.getElementById('topicView');
+      const loading = document.getElementById('topicLoading');
+      
+      const headerHTML = `
+        <div class="topic-header">
+          <span class="topic-icon">${topic.icon || '📚'}</span>
+          <h1>${topic.title}</h1>
+          <div class="topic-meta">
+            <span>Schwierigkeit: ${'⭐'.repeat(topic.difficulty || 1)}</span>
+            <span>⏱️ ${topic.duration || 30} Minuten</span>
+          </div>
+          <p class="topic-description">${topic.description || ''}</p>
+        </div>
+        <div class="topic-content-container" id="topicContent"></div>
+        <button id="markComplete" class="btn-complete">✅ Thema abschließen</button>
+      `;
+      
+      container.innerHTML = headerHTML;
+      
+      const contentContainer = document.getElementById('topicContent');
+      if (topic.content && Array.isArray(topic.content)) {
+        contentContainer.innerHTML = renderContentArray(topic.content);
+      } else {
+        contentContainer.innerHTML = '<p>Kein Inhalt für dieses Thema vorhanden.</p>';
+      }
+      
+      document.getElementById('markComplete')?.addEventListener('click', async () => {
+        await gamification.completeTask(topic.id, 100);
+        await storage.completeTopic(topic.id, 100);
+        alert('🎉 Thema abgeschlossen! +10 XP');
+        document.getElementById('markComplete').disabled = true;
+        document.getElementById('markComplete').textContent = '✅ Abgeschlossen';
+        
+        setTimeout(() => {
+          window.location.href = 'index.html';
+        }, 1500);
+      });
+      
+      loading.style.display = 'none';
+      container.style.display = 'block';
+      document.title = `${topic.title} - MathLern`;
+    }
+    
+    function showError(message) {
+      const loading = document.getElementById('topicLoading');
+      loading.innerHTML = `<div class="error">❌ ${message}</div>`;
+    }
+    
+    // Dark Mode Toggle
+    document.getElementById('darkModeToggle')?.addEventListener('click', () => {
+      document.body.classList.toggle('dark-mode');
+    });
+    
+    document.getElementById('backToDashboard')?.addEventListener('click', () => {
+      window.location.href = 'index.html';
+    });
+    
+    loadTopic();
+  </script>
+</body>
+</html>

@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Mein Profil - MathLern</title>
+  
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#3b82f6">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <link rel="apple-touch-icon" href="icons/icon-192x192.png">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E📚%3C/text%3E%3C/svg%3E">
+  
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  
+  <style>
+    /* Profile Styles */
+    .profile-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .profile-header {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .level-card, .streak-card {
+      background: var(--bg-secondary, white);
+      border-radius: 1rem;
+      padding: 1.5rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      border: 1px solid var(--border, #e2e8f0);
+    }
+    .level-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    .level-icon {
+      font-size: 3rem;
+    }
+    .level-info h3 {
+      margin: 0;
+      font-size: 1.25rem;
+    }
+    .level-info p {
+      margin: 0;
+      color: var(--text-secondary, #64748b);
+      font-size: 0.875rem;
+    }
+    .xp-progress {
+      margin-top: 1rem;
+    }
+    .progress-bar-container {
+      background: var(--border, #e2e8f0);
+      border-radius: 1rem;
+      overflow: hidden;
+      height: 1.5rem;
+    }
+    .progress-fill {
+      background: linear-gradient(90deg, #3b82f6, #10b981);
+      height: 100%;
+      transition: width 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding-right: 0.5rem;
+      color: white;
+      font-size: 0.75rem;
+      font-weight: bold;
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .stat-card {
+      background: var(--bg-secondary, white);
+      border-radius: 1rem;
+      padding: 1.5rem;
+      text-align: center;
+      border: 1px solid var(--border, #e2e8f0);
+    }
+    .stat-value {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #3b82f6;
+      margin-bottom: 0.5rem;
+    }
+    .stat-label {
+      font-size: 0.875rem;
+      color: var(--text-secondary, #64748b);
+    }
+    .badges-section {
+      background: var(--bg-secondary, white);
+      border-radius: 1rem;
+      padding: 1.5rem;
+      border: 1px solid var(--border, #e2e8f0);
+      margin-top: 2rem;
+    }
+    .badge-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    .badge-card {
+      background: var(--bg-primary, #f8fafc);
+      border-radius: 0.75rem;
+      padding: 1rem;
+      text-align: center;
+      border: 1px solid var(--border, #e2e8f0);
+    }
+    .badge-card.earned {
+      background: linear-gradient(135deg, var(--bg-primary, #f8fafc) 0%, rgba(59,130,246,0.1) 100%);
+      border-color: #3b82f6;
+    }
+    .badge-card.locked {
+      opacity: 0.6;
+      filter: grayscale(0.3);
+    }
+    .badge-icon {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .badge-name {
+      font-weight: bold;
+      margin-bottom: 0.25rem;
+    }
+    .badge-description {
+      font-size: 0.7rem;
+      color: var(--text-secondary, #64748b);
+    }
+    .badge-earned, .badge-locked {
+      font-size: 0.65rem;
+      margin-top: 0.5rem;
+      padding: 0.25rem;
+      border-radius: 0.25rem;
+    }
+    .badge-earned {
+      background: #10b981;
+      color: white;
+    }
+    .badge-locked {
+      background: #ef4444;
+      color: white;
+    }
+    @media (max-width: 768px) {
+      .profile-header {
+        grid-template-columns: 1fr;
+      }
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <h2>📚 MathLern</h2>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="index.html" class="nav-link">🏠 Dashboard</a>
+        <a href="profile.html" class="nav-link active">🏆 Mein Profil</a>
+      </nav>
+      <div class="sidebar-footer">
+        <button id="darkModeToggle" class="sidebar-btn">🌓 Dark Mode</button>
+        <button id="resetProgressBtn" class="sidebar-btn danger">🔄 Fortschritt zurücksetzen</button>
+      </div>
+    </aside>
+    
+    <main class="content profile-content">
+      <div class="profile-container">
+        <div class="profile-header">
+          <div id="levelCard">
+            <div class="level-card">
+              <div class="level-header">
+                <span class="level-icon">🌱</span>
+                <div class="level-info">
+                  <h3>Level 1</h3>
+                  <p>Mathe-Novize</p>
+                </div>
+              </div>
+              <div class="xp-progress">
+                <div class="progress-bar-container">
+                  <div class="progress-fill" style="width: 0%">0 XP</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="streakCard">
+            <div class="streak-card" style="text-align: center;">
+              <div style="font-size: 3rem;">🔥</div>
+              <div><span id="streakValue">0</span> Tage Serie</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-value" id="totalPoints">0</div>
+            <div class="stat-label">Gesamtpunkte</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="tasksCompleted">0</div>
+            <div class="stat-label">Aufgaben gelöst</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="perfectScores">0</div>
+            <div class="stat-label">Perfekte Ergebnisse</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="badgesCount">0</div>
+            <div class="stat-label">Erfolge</div>
+          </div>
+        </div>
+        
+        <div class="badges-section">
+          <h2>🏅 Meine Erfolge</h2>
+          <div id="badgeGrid" class="badge-grid">
+            <p>Lade Erfolge...</p>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script type="module">
+    import { gamification } from './js/gamification.js';
+    
+    let currentBadges = [];
+    
+    async function init() {
+      console.log('Initialisiere Profil...');
+      
+      // Gamification initialisieren
+      await gamification.init();
+      
+      // Stats anzeigen
+      updateStats();
+      
+      // Badges anzeigen
+      await renderBadges();
+      
+      console.log('Profil geladen');
+    }
+    
+    function updateStats() {
+      const stats = gamification.getStats();
+      const currentLevel = gamification.getLevelDetails(stats.level);
+      const nextLevelProgress = stats.nextLevelProgress;
+      
+      // Level Card aktualisieren
+      const levelCard = document.getElementById('levelCard');
+      levelCard.innerHTML = `
+        <div class="level-card">
+          <div class="level-header">
+            <span class="level-icon">${currentLevel?.icon || '🌱'}</span>
+            <div class="level-info">
+              <h3>Level ${stats.level}</h3>
+              <p>${currentLevel?.title || 'Mathe-Novize'}</p>
+            </div>
+          </div>
+          <div class="xp-progress">
+            <div class="progress-bar-container">
+              <div class="progress-fill" style="width: ${nextLevelProgress?.percentage || 0}%">
+                ${stats.xp} XP
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+      
+      // Streak Card aktualisieren
+      document.getElementById('streakValue').textContent = stats.streak;
+      
+      // Stats aktualisieren
+      document.getElementById('totalPoints').textContent = stats.totalPoints;
+      document.getElementById('tasksCompleted').textContent = stats.tasksCompleted;
+      document.getElementById('perfectScores').textContent = stats.perfectScores;
+      document.getElementById('badgesCount').textContent = stats.badgesCount;
+    }
+    
+    async function renderBadges() {
+      const badgesByCategory = gamification.getBadgesByCategory();
+      const container = document.getElementById('badgeGrid');
+      
+      let html = '';
+      
+      for (const [catKey, catData] of Object.entries(badgesByCategory)) {
+        if (catData.badges.length === 0) continue;
+        
+        html += `<div style="margin-bottom: 1.5rem; width: 100%;">
+          <h3 style="margin-bottom: 0.5rem;">${catData.name}</h3>
+          <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1rem;">
+        `;
+        
+        for (const badge of catData.badges) {
+          html += `
+            <div class="badge-card ${badge.owned ? 'earned' : 'locked'}">
+              <div class="badge-icon">${badge.icon}</div>
+              <div class="badge-name">${badge.name}</div>
+              <div class="badge-description">${badge.description}</div>
+              ${badge.owned ? 
+                `<div class="badge-earned">🏆 Erhalten</div>` : 
+                `<div class="badge-locked">🔒 Noch nicht freigeschaltet</div>`
+              }
+            </div>
+          `;
+        }
+        
+        html += `</div></div>`;
+      }
+      
+      if (html === '') {
+        html = '<p>Noch keine Erfolge freigeschaltet. Löse Aufgaben um Badges zu sammeln!</p>';
+      }
+      
+      container.innerHTML = html;
+    }
+    
+    // Dark Mode Toggle
+    document.getElementById('darkModeToggle')?.addEventListener('click', () => {
+      document.body.classList.toggle('dark-mode');
+      localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+    });
+    
+    // Dark Mode aus localStorage laden
+    if (localStorage.getItem('darkMode') === 'true') {
+      document.body.classList.add('dark-mode');
+    }
+    
+    // Fortschritt zurücksetzen
+    document.getElementById('resetProgressBtn')?.addEventListener('click', async () => {
+      if (confirm('⚠️ Achtung! Dies löscht ALLE deine Fortschritte, Punkte und Badges. Fortfahren?')) {
+        localStorage.clear();
+        window.location.reload();
+      }
+    });
+    
+    // App starten
+    init();
+  </script>
+  
+  <!-- PWA Script (deaktiviert für jetzt) -->
+  <!-- <script src="js/pwa.js"></script> -->
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Icon Generator</title>
+</head>
+<body>
+    <h1>Icon Generator für MathLern PWA</h1>
+    <p>Klicke auf "Icons generieren" um alle benötigten Icons zu erstellen.</p>
+    <button id="generateBtn">Icons generieren</button>
+    <div id="status"></div>
+
+    <script>
+        const sizes = [72, 96, 128, 144, 152, 192, 384, 512];
+        
+        async function generateIcons() {
+            const status = document.getElementById('status');
+            status.innerHTML = 'Generiere Icons...';
+            
+            for (const size of sizes) {
+                const canvas = document.createElement('canvas');
+                canvas.width = size;
+                canvas.height = size;
+                const ctx = canvas.getContext('2d');
+                
+                // Hintergrund
+                ctx.fillStyle = '#3b82f6';
+                ctx.fillRect(0, 0, size, size);
+                
+                // Text/Emoji
+                ctx.fillStyle = 'white';
+                ctx.font = `bold ${size * 0.5}px "Segoe UI Emoji", "Apple Color Emoji", sans-serif`;
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText('📚', size/2, size/2);
+                
+                // Download
+                const link = document.createElement('a');
+                link.download = `icon-${size}x${size}.png`;
+                link.href = canvas.toDataURL();
+                link.click();
+                
+                status.innerHTML = `Generiert: ${size}x${size}...`;
+                await new Promise(r => setTimeout(r, 100));
+            }
+            
+            status.innerHTML = '✅ Alle Icons wurden generiert! Bitte verschiebe sie in den "icons" Ordner.';
+        }
+        
+        document.getElementById('generateBtn').addEventListener('click', generateIcons);
+    </script>
+</body>
+</html>

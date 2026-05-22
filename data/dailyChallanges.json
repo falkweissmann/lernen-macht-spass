@@ -1,0 +1,106 @@
+{
+  "challenges": [
+    {
+      "id": "daily_task_1",
+      "title": "5 Aufgaben meistern",
+      "description": "Löse heute 5 verschiedene Aufgaben",
+      "type": "tasks_count",
+      "target": 5,
+      "xpReward": 50,
+      "badgeReward": null,
+      "icon": "📝"
+    },
+    {
+      "id": "daily_task_2",
+      "title": "10 Aufgaben meistern",
+      "description": "Löse heute 10 Aufgaben",
+      "type": "tasks_count",
+      "target": 10,
+      "xpReward": 100,
+      "badgeReward": null,
+      "icon": "📚"
+    },
+    {
+      "id": "daily_perfect",
+      "title": "Perfektionist",
+      "description": "Erreiche heute 3 perfekte Punktzahlen",
+      "type": "perfect_scores",
+      "target": 3,
+      "xpReward": 75,
+      "badgeReward": null,
+      "icon": "⭐"
+    },
+    {
+      "id": "daily_topics",
+      "title": "Themen-Entdecker",
+      "description": "Starte heute 3 verschiedene Themen",
+      "type": "unique_topics",
+      "target": 3,
+      "xpReward": 60,
+      "badgeReward": null,
+      "icon": "🗺️"
+    },
+    {
+      "id": "daily_speed",
+      "title": "Schnelllerner",
+      "description": "Löse eine Aufgabe in unter 1 Minute",
+      "type": "speed_challenge",
+      "target": 1,
+      "timeLimit": 60,
+      "xpReward": 40,
+      "badgeReward": null,
+      "icon": "⚡"
+    },
+    {
+      "id": "daily_streak",
+      "title": "Konzentrationsbeweis",
+      "description": "Erreiche einen 3-Tage-Streak",
+      "type": "streak_milestone",
+      "target": 3,
+      "xpReward": 80,
+      "badgeReward": "streak_3",
+      "icon": "🔥"
+    },
+    {
+      "id": "daily_boss",
+      "title": "Boss-Bezwinger",
+      "description": "Schließe heute ein Boss-Level ab",
+      "type": "boss_defeated",
+      "target": 1,
+      "xpReward": 150,
+      "badgeReward": null,
+      "icon": "👑"
+    },
+    {
+      "id": "daily_points",
+      "title": "Punktejäger",
+      "description": "Sammle heute 500 Punkte",
+      "type": "points_earned",
+      "target": 500,
+      "xpReward": 120,
+      "badgeReward": null,
+      "icon": "💰"
+    },
+    {
+      "id": "daily_variety",
+      "title": "Vielseitigkeits-Champion",
+      "description": "Löse Aufgaben aus 4 verschiedenen Kategorien",
+      "type": "category_variety",
+      "target": 4,
+      "xpReward": 90,
+      "badgeReward": null,
+      "icon": "🎯"
+    },
+    {
+      "id": "daily_math",
+      "title": "Mathe-Marathon",
+      "description": "Lerne heute 30 Minuten am Stück",
+      "type": "time_spent",
+      "target": 30,
+      "unit": "minutes",
+      "xpReward": 70,
+      "badgeReward": null,
+      "icon": "⏱️"
+    }
+  ]
+}

@@ -1,0 +1,239 @@
+{
+  "tasks": [
+    {
+      "id": "linear_eq_01",
+      "topicId": "class7_linear_equations",
+      "title": "Lineare Gleichung lösen",
+      "description": "Finde den Wert von x in der folgenden Gleichung",
+      "type": "input",
+      "difficulty": 1,
+      "points": 10,
+      "timeLimit": 120,
+      "randomizable": true,
+      "parameters": {
+        "a": { "min": 2, "max": 10 },
+        "b": { "min": 1, "max": 20 },
+        "c": { "min": 10, "max": 50 }
+      },
+      "template": "{{a}}x + {{b}} = {{c}}",
+      "solution": "x = ({{c}} - {{b}}) / {{a}}",
+      "validation": {
+        "type": "numeric",
+        "tolerance": 0.01,
+        "alternatives": ["({{c}}-{{b}})/{{a}}"]
+      },
+      "hints": [
+        "Ziehe zuerst {{b}} von beiden Seiten ab",
+        "Teile dann durch {{a}}"
+      ],
+      "feedback": {
+        "correct": "Sehr gut! Du hast die Gleichung richtig gelöst.",
+        "incorrect": "Fast richtig! Überprüfe deine Rechnung noch einmal."
+      }
+    },
+    {
+      "id": "mc_geometry_01",
+      "topicId": "class6_geometry",
+      "title": "Eigenschaften von Dreiecken",
+      "description": "Welche Aussagen über Dreiecke sind korrekt?",
+      "type": "multiple-choice",
+      "difficulty": 2,
+      "points": 15,
+      "options": [
+        { "id": "a", "text": "Ein Dreieck hat immer 180° Innenwinkelsumme", "correct": true },
+        { "id": "b", "text": "Ein gleichseitiges Dreieck hat drei 90° Winkel", "correct": false },
+        { "id": "c", "text": "Die Summe zweier Seiten ist immer größer als die dritte", "correct": true },
+        { "id": "d", "text": "Ein Dreieck kann zwei rechte Winkel haben", "correct": false }
+      ],
+      "validation": {
+        "type": "exact",
+        "solution": ["a", "c"]
+      }
+    },
+    {
+      "id": "ordering_fractions",
+      "topicId": "class5_fractions",
+      "title": "Brüche ordnen",
+      "description": "Ordne die Brüche von klein nach groß",
+      "type": "ordering",
+      "difficulty": 2,
+      "points": 20,
+      "items": [
+        { "id": "f1", "value": "1/4", "numericValue": 0.25 },
+        { "id": "f2", "value": "1/2", "numericValue": 0.5 },
+        { "id": "f3", "value": "3/4", "numericValue": 0.75 },
+        { "id": "f4", "value": "1/3", "numericValue": 0.333 }
+      ],
+      "validation": {
+        "type": "order",
+        "correctOrder": ["f1", "f4", "f2", "f3"]
+      }
+    },
+    {
+      "id": "coordinate_points",
+      "topicId": "class7_coordinates",
+      "title": "Punkt im Koordinatensystem",
+      "description": "Klicke auf den Punkt P(3|2) im Koordinatensystem",
+      "type": "coordinate-system",
+      "difficulty": 1,
+      "points": 10,
+      "parameters": {
+        "targetX": { "fixed": 3 },
+        "targetY": { "fixed": 2 }
+      },
+      "validation": {
+        "type": "coordinate",
+        "tolerance": 0.2
+      },
+      "gridSize": 10,
+      "axisRange": { "x": [-5, 5], "y": [-5, 5] }
+    },
+    {
+      "id": "multi_select_operators",
+      "topicId": "class5_basic_math",
+      "title": "Rechenoperationen auswählen",
+      "description": "Welche Operationen ergeben 12?",
+      "type": "multi-select",
+      "difficulty": 2,
+      "points": 15,
+      "options": [
+        { "id": "a", "text": "6 + 6", "correct": true },
+        { "id": "b", "text": "3 × 4", "correct": true },
+        { "id": "c", "text": "15 - 2", "correct": false },
+        { "id": "d", "text": "24 ÷ 2", "correct": true },
+        { "id": "e", "text": "7 + 6", "correct": false }
+      ],
+      "validation": {
+        "type": "multi",
+        "minSelections": 1,
+        "maxSelections": 4,
+        "solution": ["a", "b", "d"]
+      }
+    },
+    {
+      "id": "drag_drop_equations",
+      "topicId": "class8_algebra",
+      "title": "Gleichungen zuordnen",
+      "description": "Ziehe jede Gleichung zur richtigen Lösung",
+      "type": "drag-drop",
+      "difficulty": 3,
+      "points": 25,
+      "pairs": [
+        { "id": "eq1", "text": "x + 5 = 12", "target": "7", "targetId": "sol7" },
+        { "id": "eq2", "text": "2x = 18", "target": "9", "targetId": "sol9" },
+        { "id": "eq3", "text": "x - 3 = 5", "target": "8", "targetId": "sol8" }
+      ],
+      "targets": [
+        { "id": "sol7", "label": "x = 7" },
+        { "id": "sol8", "label": "x = 8" },
+        { "id": "sol9", "label": "x = 9" }
+      ]
+    },
+    {
+      "id": "graph_function",
+      "topicId": "class9_functions",
+      "title": "Funktionsgraph erkennen",
+      "description": "Zeichne den Graphen von f(x) = 2x + 1",
+      "type": "graph",
+      "difficulty": 3,
+      "points": 30,
+      "parameters": {
+        "m": { "fixed": 2 },
+        "b": { "fixed": 1 }
+      },
+      "validation": {
+        "type": "line",
+        "slopeTolerance": 0.1,
+        "interceptTolerance": 0.1
+      },
+      "axisRange": { "x": [-5, 5], "y": [-5, 5] }
+    },
+    {
+      "id": "equation_system",
+      "topicId": "class9_algebra",
+      "title": "Lineares Gleichungssystem",
+      "description": "Löse das Gleichungssystem",
+      "type": "equation",
+      "difficulty": 4,
+      "points": 40,
+      "equations": [
+        "2x + y = 8",
+        "x - y = 1"
+      ],
+      "validation": {
+        "type": "system",
+        "solution": { "x": 3, "y": 2 },
+        "tolerance": 0.01
+      }
+    },
+    {
+      "id": "interval_inequality",
+      "topicId": "class10_advanced",
+      "title": "Intervall angeben",
+      "description": "Gib das Lösungsintervall für |x - 2| < 3 an",
+      "type": "interval",
+      "difficulty": 3,
+      "points": 20,
+      "validation": {
+        "type": "interval",
+        "solution": { "min": -1, "max": 5, "minInclusive": false, "maxInclusive": false }
+      },
+      "allowUserInput": true
+    },
+    {
+      "id": "vector_operations",
+      "topicId": "class11_vector",
+      "title": "Vektoraddition",
+      "description": "Berechne die Summe der Vektoren",
+      "type": "vector",
+      "difficulty": 3,
+      "points": 25,
+      "vectors": [
+        { "x": 3, "y": 2 },
+        { "x": -1, "y": 4 }
+      ],
+      "validation": {
+        "type": "vector",
+        "solution": { "x": 2, "y": 6 },
+        "tolerance": 0.01
+      }
+    },
+    {
+      "id": "escape_code_room",
+      "topicId": "class8_puzzle",
+      "title": "🔐 Escape Room: Mathematik",
+      "description": "Löse alle Teilaufgaben, um den Code zu erhalten",
+      "type": "escape-code",
+      "difficulty": 4,
+      "points": 100,
+      "subtasks": [
+        {
+          "id": "sub1",
+          "text": "Aufgabe 1: 15 + 27 = ?",
+          "type": "input",
+          "solution": 42,
+          "validation": { "type": "numeric", "tolerance": 0 }
+        },
+        {
+          "id": "sub2",
+          "text": "Aufgabe 2: Wurzel aus 64",
+          "type": "input",
+          "solution": 8,
+          "validation": { "type": "numeric", "tolerance": 0 }
+        },
+        {
+          "id": "sub3",
+          "text": "Aufgabe 3: 3! (Fakultät)",
+          "type": "input",
+          "solution": 6,
+          "validation": { "type": "numeric", "tolerance": 0 }
+        }
+      ],
+      "validation": {
+        "type": "code",
+        "expectedCode": "4286",
+        "codeFormula": "sub1 + sub2 + sub3"
+      }
+    }
+  ]
+}

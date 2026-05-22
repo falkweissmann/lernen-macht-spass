@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Offline - MathLern</title>
+  
+  <!-- PWA Meta-Tags -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#3b82f6">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="MathLern">
+  <link rel="apple-touch-icon" href="icons/icon-192x192.png">
+  
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/offline.css">
+</head>
+<body class="offline-page">
+  <div class="offline-container">
+    <div class="offline-icon">📡</div>
+    <h1>Keine Internetverbindung</h1>
+    <p>Du bist offline. Deine gecachten Inhalte sind weiterhin verfügbar!</p>
+    
+    <div class="offline-actions">
+      <button id="retryBtn" class="btn-primary">
+        🔄 Verbindung prüfen
+      </button>
+      <button id="goDashboardBtn" class="btn-secondary">
+        📚 Zum Dashboard
+      </button>
+    </div>
+    
+    <div class="cached-info">
+      <h3>✅ Verfügbare Offline-Inhalte</h3>
+      <ul id="cachedAssetsList">
+        <li>📊 Dashboard</li>
+        <li>🏆 Profil & Erfolge</li>
+        <li>📚 Abgeschlossene Themen</li>
+        <li>⭐ Aufgaben (gecacht)</li>
+      </ul>
+    </div>
+    
+    <div class="progress-indicator" id="syncProgress" style="display: none;">
+      <div class="spinner"></div>
+      <p>Synchronisiere gespeicherte Fortschritte...</p>
+    </div>
+  </div>
+  
+  <script>
+    // Verbindung prüfen
+    document.getElementById('retryBtn')?.addEventListener('click', () => {
+      if (navigator.onLine) {
+        location.reload();
+      } else {
+        alert('⚠️ Du bist immer noch offline. Bitte verbinde dich mit dem Internet.');
+      }
+    });
+    
+    // Zum Dashboard navigieren
+    document.getElementById('goDashboardBtn')?.addEventListener('click', () => {
+      window.location.href = '/dashboard.html';
+    });
+    
+    // Online-Event: Automatisch neu laden
+    window.addEventListener('online', () => {
+      const syncDiv = document.getElementById('syncProgress');
+      if (syncDiv) {
+        syncDiv.style.display = 'block';
+        setTimeout(() => {
+          location.reload();
+        }, 1500);
+      }
+    });
+    
+    // PWA-Installationserkennung
+    if (window.matchMedia('(display-mode: standalone)').matches) {
+      console.log('App läuft im installierten Modus');
+    }
+  </script>
+</body>
+</html>

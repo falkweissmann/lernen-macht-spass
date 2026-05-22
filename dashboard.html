@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Dashboard - MathLern</title>
+  
+  <!-- PWA Meta-Tags -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#3b82f6">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="MathLern">
+  <link rel="apple-touch-icon" href="icons/icon-192x192.png">
+  
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+</head>
+<body>
+  <div class="app-container">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <h2>📚 MathLern</h2>
+        <p class="version">PWA v2.0</p>
+      </div>
+      
+      <nav class="sidebar-nav">
+        <a href="dashboard.html" class="nav-link active">🏠 Dashboard</a>
+        <a href="profile.html" class="nav-link">🏆 Profil & Statistik</a>
+      </nav>
+      
+      <div class="sidebar-footer">
+        <button id="darkModeToggle" class="sidebar-btn">🌓 Dark Mode</button>
+        <button id="resetProgressBtn" class="sidebar-btn danger">🔄 Fortschritt zurücksetzen</button>
+      </div>
+    </aside>
+    
+    <main class="content">
+      <div class="dashboard-container">
+        <div id="levelCard"></div>
+        <div id="streakCard"></div>
+        <div id="topicGrid" class="tile-grid"></div>
+      </div>
+    </main>
+  </div>
+  
+  <!-- PWA Script -->
+  <!-- <script src="js/pwa.js"></script> -->
+  
+  <script type="module">
+    import { gamification } from './js/gamification.js';
+    import * as gamificationUI from './js/gamificationUI.js';
+    import { getProgress } from './js/storage.js';
+    
+    async function init() {
+      // Gamification initialisieren
+      await gamification.init();
+      gamificationUI.initGamificationUI();
+      
+      // UI-Komponenten rendern
+      gamificationUI.renderLevelCard('levelCard');
+      gamificationUI.renderStreakCard('streakCard');
+      
+      // Themen laden und anzeigen
+      const progress = getProgress();
+      const topics = [
+        { id: "algebra_basics", title: "Grundlagen", locked: false, progress: 60 },
+        { id: "gleichungen", title: "Gleichungen lösen", locked: false, progress: 20 },
+        { id: "boss_level_1", title: "⚔️ BOSS: Lineare Funktionen", locked: true, boss: true }
+      ];
+      
+      const grid = document.getElementById('topicGrid');
+      topics.forEach(topic => {
+        const tile = document.createElement('div');
+        tile.className = 'tile';
+        tile.innerHTML = `
+          <h3>${topic.title}</h3>
+          <div class="progress-bar"><div style="width:${topic.progress}%"></div></div>
+          <p>${topic.locked ? '🔒 Gesperrt' : '🔓 Verfügbar'}</p>
+        `;
+        if (!topic.locked) {
+          tile.onclick = () => location.href = `topic.html?id=${topic.id}`;
+        }
+        grid.appendChild(tile);
+      });
+      
+      // DarkMode Toggle
+      document.getElementById('darkModeToggle')?.addEventListener('click', () => {
+        document.body.classList.toggle('dark-mode');
+      });
+      
+      // Fortschritt zurücksetzen
+      document.getElementById('resetProgressBtn')?.addEventListener('click', async () => {
+        if (confirm('⚠️ Achtung! Dies löscht ALLE Fortschritte. Fortfahren?')) {
+          localStorage.clear();
+          location.reload();
+        }
+      });
+    }
+    
+    init();
+  </script>
+</body>
+</html>

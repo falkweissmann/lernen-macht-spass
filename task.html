@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+  <title>Aufgabe - MathLern</title>
+  
+  <!-- PWA Meta-Tags -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#3b82f6">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="MathLern">
+  <link rel="apple-touch-icon" href="icons/icon-192x192.png">
+  
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/task.css">
+</head>
+<body>
+  <div class="app-container">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <h2>📚 MathLern</h2>
+        <p class="version">PWA v2.0</p>
+      </div>
+      
+      <nav class="sidebar-nav">
+        <a href="dashboard.html" class="nav-link">🏠 Dashboard</a>
+        <a href="profile.html" class="nav-link">🏆 Profil</a>
+      </nav>
+      
+      <div class="sidebar-footer">
+        <button id="darkModeToggle" class="sidebar-btn">🌓 Dark Mode</button>
+        <button id="backToTopic" class="sidebar-btn">← Zurück zum Thema</button>
+        <div id="taskProgress" class="task-progress">
+          <span>🏆 <span id="pointsEarned">0</span> Punkte</span>
+        </div>
+      </div>
+    </aside>
+    
+    <main class="content task-content" id="mainContent">
+      <div id="taskContainer" class="task-container-wrapper">
+        <div class="loading">Lade Aufgabe...</div>
+      </div>
+    </main>
+  </div>
+  
+  <!-- PWA Script -->
+  <script src="js/pwa.js"></script>
+  
+  <script type="module">
+    import { TaskEngine } from './js/taskEngine.js';
+    import './js/taskTypes.js';
+    import { gamification } from './js/gamification.js';
+    import * as gamificationUI from './js/gamificationUI.js';
+    
+    const engine = new TaskEngine();
+    
+    // Callbacks
+    engine.onTaskComplete = async (taskId, score) => {
+      const pointsSpan = document.getElementById('pointsEarned');
+      if (pointsSpan) {
+        const current = parseInt(pointsSpan.textContent) || 0;
+        pointsSpan.textContent = current + score;
+      }
+      
+      // Gamification aktualisieren
+      const reward = await gamification.completeTask(taskId, score);
+      
+      // Erfolgsmeldung mit Gamification-Infos
+      let message = `✅ Aufgabe abgeschlossen! +${reward.xpGained} XP, +${reward.pointsGained} Punkte`;
+      if (reward.newBadges && reward.newBadges.length > 0) {
+        message += `\n🏅 Neue Erfolge: ${reward.newBadges.map(b => b.name).join(', ')}`;
+      }
+      if (reward.newLevel > reward.oldLevel) {
+        message += `\n🎉 LEVEL UP! Du bist jetzt Level ${reward.newLevel}!`;
+      }
+      
+      alert(message);
+      
+      // Optional: 3 Sekunden später zurück
+      setTimeout(() => {
+        const topicId = new URLSearchParams(window.location.search).get('topicId');
+        if (topicId) {
+          window.location.href = `topic.html?id=${topicId}`;
+        }
+      }, 2000);
+    };
+    
+    // Aufgabe aus URL laden
+    async function init() {
+      // Gamification initialisieren
+      await gamification.init();
+      gamificationUI.initGamificationUI();
+      
+      const urlParams = new URLSearchParams(window.location.search);
+      const taskId = urlParams.get('id');
+      const topicId = urlParams.get('topicId');
+      
+      if (!taskId) {
+        document.getElementById('taskContainer').innerHTML = '<div class="error">Keine Aufgaben-ID angegeben</div>';
+        return;
+      }
+      
+      try {
+        await engine.loadTask(taskId);
+        await engine.renderTask('taskContainer');
+        
+        // Back-Button
+        if (topicId) {
+          document.getElementById('backToTopic')?.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.location.href = `topic.html?id=${topicId}`;
+          });
+        } else {
+          document.getElementById('backToTopic')?.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.location.href = 'dashboard.html';
+          });
+        }
+      } catch (error) {
+        document.getElementById('taskContainer').innerHTML = `<div class="error">Fehler: ${error.message}</div>`;
+      }
+    }
+    
+    // DarkMode
+    document.getElementById('darkModeToggle')?.addEventListener('click', () => {
+      document.body.classList.toggle('dark-mode');
+    });
+    
+    init();
+  </script>
+</body>
+</html>

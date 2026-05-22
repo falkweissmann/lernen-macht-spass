@@ -1,0 +1,19 @@
+{
+  "levels": [
+    { "level": 1, "minXP": 0, "maxXP": 100, "title": "Mathe-Novize", "icon": "🌱" },
+    { "level": 2, "minXP": 100, "maxXP": 250, "title": "Zahlen-Lehrling", "icon": "🔢" },
+    { "level": 3, "minXP": 250, "maxXP": 450, "title": "Rechen-Knappe", "icon": "🧮" },
+    { "level": 4, "minXP": 450, "maxXP": 700, "title": "Mathe-Schüler", "icon": "📚" },
+    { "level": 5, "minXP": 700, "maxXP": 1000, "title": "Algebra-Krieger", "icon": "⚔️" },
+    { "level": 6, "minXP": 1000, "maxXP": 1400, "title": "Geometrie-Ritter", "icon": "📐" },
+    { "level": 7, "minXP": 1400, "maxXP": 1900, "title": "Analysis-Held", "icon": "📈" },
+    { "level": 8, "minXP": 1900, "maxXP": 2500, "title": "Mathe-Meister", "icon": "🎓" },
+    { "level": 9, "minXP": 2500, "maxXP": 3200, "title": "Genie", "icon": "🧠" },
+    { "level": 10, "minXP": 3200, "maxXP": 4000, "title": "Mathe-Legende", "icon": "🏆" },
+    { "level": 11, "minXP": 4000, "maxXP": 5000, "title": "Mathe-Guru", "icon": "🙏" },
+    { "level": 12, "minXP": 5000, "maxXP": 6500, "title": "Zahlenmagier", "icon": "✨" },
+    { "level": 13, "minXP": 6500, "maxXP": 8500, "title": "Mathe-Professor", "icon": "👨‍🏫" },
+    { "level": 14, "minXP": 8500, "maxXP": 11000, "title": "Mathe-Weiser", "icon": "🦉" },
+    { "level": 15, "minXP": 11000, "maxXP": 15000, "title": "Mathe-Champion", "icon": "🥇" }
+  ]
+}

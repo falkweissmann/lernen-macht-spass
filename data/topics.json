@@ -1,0 +1,40 @@
+{
+  "topics": [
+    {
+      "id": "class5_basic_math",
+      "subjectId": "class5",
+      "title": "Grundrechenarten",
+      "description": "Addition, Subtraktion, Multiplikation, Division",
+      "icon": "➕",
+      "difficulty": 1,
+      "duration": 45,
+      "order": 1,
+      "active": true,
+      "contentTypes": ["text", "quiz"]
+    },
+    {
+      "id": "class5_fractions",
+      "subjectId": "class5",
+      "title": "Brüche verstehen",
+      "description": "Einführung in die Welt der Brüche",
+      "icon": "🥧",
+      "difficulty": 2,
+      "duration": 60,
+      "order": 2,
+      "active": true,
+      "contentTypes": ["text", "interactive"]
+    },
+    {
+      "id": "class6_geometry",
+      "subjectId": "class6",
+      "title": "Geometrie Grundlagen",
+      "description": "Flächen, Umfang und Winkel",
+      "icon": "📐",
+      "difficulty": 2,
+      "duration": 50,
+      "order": 1,
+      "active": true,
+      "contentTypes": ["text", "diagram"]
+    }
+  ]
+}

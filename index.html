@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>MathLern - Modulare Lernplattform</title>
+  
+  <!-- PWA Meta-Tags -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#3b82f6">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  
+  <style>
+    /* Fallback Styles falls CSS nicht lädt */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: system-ui, -apple-system, sans-serif; background: #f0f4f8; }
+    .app-container { display: flex; min-height: 100vh; }
+    .sidebar { width: 260px; background: white; padding: 1.5rem; box-shadow: 2px 0 8px rgba(0,0,0,0.1); }
+    .sidebar h2 { color: #3b82f6; margin-bottom: 1rem; }
+    .nav-link { display: block; padding: 0.75rem; margin: 0.5rem 0; text-decoration: none; color: #333; border-radius: 8px; cursor: pointer; }
+    .nav-link:hover, .nav-link.active { background: #3b82f6; color: white; }
+    .content { flex: 1; padding: 2rem; }
+    .sidebar-footer { margin-top: auto; }
+    .sidebar-btn { width: 100%; padding: 0.5rem; margin-top: 0.5rem; background: #e2e8f0; border: none; border-radius: 8px; cursor: pointer; }
+    .danger { background: #fee2e2; color: #dc2626; }
+    .tile-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 1.5rem; }
+    .tile { background: white; border-radius: 16px; padding: 1.5rem; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: transform 0.2s; }
+    .tile:hover { transform: translateY(-4px); }
+    .dashboard-header { margin-bottom: 2rem; }
+    .user-stats { display: flex; gap: 1rem; margin-top: 1rem; padding: 0.75rem; background: #e2e8f0; border-radius: 8px; }
+    .progress-container { background: #e2e8f0; border-radius: 1rem; overflow: hidden; height: 1.5rem; margin: 1rem 0; }
+    .progress-bar { background: linear-gradient(90deg, #3b82f6, #10b981); height: 100%; display: flex; align-items: center; justify-content: center; color: white; font-size: 0.75rem; }
+    .error-message { background: #fee2e2; color: #dc2626; padding: 1rem; border-radius: 8px; margin: 1rem 0; }
+    .back-button { padding: 0.5rem 1rem; margin-bottom: 1rem; cursor: pointer; background: #e2e8f0; border: none; border-radius: 8px; }
+    
+    /* Dark Mode */
+    .dark-mode { background: #1a1a2e; }
+    .dark-mode .sidebar { background: #16213e; color: white; }
+    .dark-mode .sidebar h2 { color: #60a5fa; }
+    .dark-mode .nav-link { color: #e2e8f0; }
+    .dark-mode .tile { background: #1e293b; color: white; }
+    .dark-mode .user-stats { background: #334155; color: white; }
+    .dark-mode .progress-container { background: #334155; }
+    .dark-mode .back-button { background: #334155; color: white; }
+    .dark-mode .sidebar-btn { background: #334155; color: white; }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <h2>📚 MathLern</h2>
+        <p class="version">v2.0</p>
+      </div>
+      
+      <nav class="sidebar-nav">
+        <a href="index.html" class="nav-link active">
+          🏠 Dashboard
+        </a>
+        <a href="profile.html" class="nav-link">
+          🏆 Profil & Statistik
+        </a>
+      </nav>
+      
+      <div class="sidebar-footer">
+        <button id="darkModeToggle" class="sidebar-btn">
+          🌓 Dark Mode
+        </button>
+        <button id="resetProgressBtn" class="sidebar-btn danger">
+          🔄 Fortschritt zurücksetzen
+        </button>
+      </div>
+    </aside>
+    
+    <!-- Hauptinhalt -->
+    <main class="content" id="mainContent">
+      <div class="loading" style="text-align: center; padding: 2rem;">📚 Lade Lernplattform...</div>
+    </main>
+  </div>
+
+  <script type="module">
+    // Importe
+    import * as storage from './js/storage.js';
+    import * as renderer from './js/renderer.js';
+    
+    console.log('🚀 App wird initialisiert...');
+    
+    // Globale App-State
+    const AppState = {
+      currentView: 'dashboard',
+      currentSubject: null,
+      subjects: [],
+      topics: [],
+      progress: null
+    };
+    
+    /**
+     * Initialisiert die App
+     */
+    async function initApp() {
+      try {
+        // Lade alle Daten
+        await loadData();
+        
+        // Lade Benutzerfortschritt
+        AppState.progress = await storage.getProgress();
+        
+        // Dark Mode aus localStorage laden
+        loadDarkMode();
+        
+        // Rendere Dashboard
+        await renderDashboard();
+        
+        // Event Listener
+        setupEventListeners();
+        
+        console.log('✅ App erfolgreich gestartet');
+        console.log('Geladene Klassen:', AppState.subjects);
+        console.log('Geladene Themen:', AppState.topics.length);
+      } catch (error) {
+        console.error('❌ Fehler bei Initialisierung:', error);
+        const mainContent = document.getElementById('mainContent');
+        if (mainContent) {
+          mainContent.innerHTML = `
+            <div class="error-message">
+              <strong>Fehler beim Laden der App:</strong><br>
+              ${error.message}<br><br>
+              <button onclick="location.reload()" style="padding: 0.5rem 1rem; cursor: pointer;">Seite neu laden</button>
+            </div>
+          `;
+        }
+      }
+    }
+    
+    /**
+     * Dark Mode aus localStorage laden
+     */
+    function loadDarkMode() {
+      const savedDarkMode = localStorage.getItem('darkMode') === 'true';
+      if (savedDarkMode) {
+        document.body.classList.add('dark-mode');
+      }
+    }
+    
+    /**
+     * Dark Mode speichern
+     */
+    function saveDarkMode(isDark) {
+      localStorage.setItem('darkMode', isDark);
+    }
+    
+    /**
+     * Lädt alle JSON-Daten
+     */
+    async function loadData() {
+      try {
+        console.log('Lade Daten...');
+        
+        // Subjects laden
+        const subjectsRes = await fetch('./data/subjects.json');
+        if (!subjectsRes.ok) throw new Error(`HTTP ${subjectsRes.status}: subjects.json`);
+        const subjectsData = await subjectsRes.json();
+        AppState.subjects = subjectsData.subjects || subjectsData;
+        
+        // Topics laden
+        const topicsRes = await fetch('./data/topics.json');
+        if (!topicsRes.ok) throw new Error(`HTTP ${topicsRes.status}: topics.json`);
+        const topicsData = await topicsRes.json();
+        AppState.topics = topicsData.topics || topicsData;
+        
+      } catch (error) {
+        console.error('Fehler beim Laden der Daten:', error);
+        throw new Error(`Daten konnten nicht geladen werden: ${error.message}`);
+      }
+    }
+    
+    /**
+     * Rendert das Dashboard
+     */
+    async function renderDashboard() {
+      const mainContent = document.getElementById('mainContent');
+      if (!mainContent) return;
+      
+      const stats = AppState.progress;
+      const completedCount = stats?.completedTopics?.length || 0;
+      const totalPoints = stats?.totalPoints || 0;
+      
+      // HTML-Struktur für Dashboard
+      mainContent.innerHTML = `
+        <div class="dashboard-header">
+          <h1>📚 Mathematik Lernplattform</h1>
+          <p>Wähle deine Klassenstufe</p>
+          <div class="user-stats">
+            <span>🏆 ${totalPoints} Punkte</span>
+            <span>📊 ${completedCount} abgeschlossene Themen</span>
+            <span>🏅 ${stats?.badges?.length || 0} Erfolge</span>
+          </div>
+        </div>
+        <div id="gradeContainer"></div>
+        <div id="progressContainer" class="global-progress"></div>
+      `;
+      
+      // Rendere Klassen-Kacheln
+      if (AppState.subjects && AppState.subjects.length > 0) {
+        console.log('Rendere Klassen:', AppState.subjects);
+        renderer.renderGradeTiles(AppState.subjects, 'gradeContainer', async (subjectId) => {
+          console.log('Klasse ausgewählt:', subjectId);
+          await renderTopics(subjectId);
+        });
+      } else {
+        const gradeContainer = document.getElementById('gradeContainer');
+        if (gradeContainer) {
+          gradeContainer.innerHTML = '<div class="error-message">Keine Klassenstufen gefunden</div>';
+        }
+      }
+      
+      // Zeige globalen Fortschritt
+      const totalTopics = AppState.topics.filter(t => t.active !== false).length;
+      const globalPercentage = totalTopics > 0 ? (completedCount / totalTopics) * 100 : 0;
+      renderer.renderProgressBar(globalPercentage, 'progressContainer');
+    }
+    
+    /**
+     * Rendert Themen für eine ausgewählte Klasse
+     */
+    async function renderTopics(subjectId) {
+      const subject = AppState.subjects.find(s => s.id === subjectId);
+      const mainContent = document.getElementById('mainContent');
+      
+      mainContent.innerHTML = `
+        <div class="topics-header">
+          <button class="back-button" id="backToDashboard">← Zurück</button>
+          <h1>${subject?.icon || '📚'} ${subject?.name || 'Themen'}</h1>
+          <p>Wähle ein Thema zum Lernen</p>
+        </div>
+        <div id="topicsContainer"></div>
+      `;
+      
+      // Back-Button Event
+      document.getElementById('backToDashboard')?.addEventListener('click', () => {
+        renderDashboard();
+      });
+      
+      // Lade Fortschritt für diese Klasse
+      const gradeProgress = {};
+      for (const topic of AppState.topics) {
+        if (topic.subjectId === subjectId) {
+          const topicProgress = await storage.getTopicProgress(topic.id);
+          gradeProgress[topic.id] = topicProgress;
+        }
+      }
+      
+      // Rendere Themen-Kacheln
+      console.log('Rendere Themen für Klasse:', subjectId, 'Anzahl:', AppState.topics.filter(t => t.subjectId === subjectId).length);
+      renderer.renderTopicTiles(
+        AppState.topics, 
+        subjectId, 
+        'topicsContainer', 
+        async (topicId) => {
+          console.log('Thema ausgewählt:', topicId);
+          window.location.href = `topic.html?id=${topicId}`;
+        },
+        gradeProgress
+      );
+    }
+    
+    /**
+     * Richtet Event Listener ein
+     */
+    function setupEventListeners() {
+      // Dark Mode Toggle
+      const darkModeToggle = document.getElementById('darkModeToggle');
+      if (darkModeToggle) {
+        darkModeToggle.addEventListener('click', () => {
+          document.body.classList.toggle('dark-mode');
+          saveDarkMode(document.body.classList.contains('dark-mode'));
+        });
+      }
+      
+      // Fortschritt zurücksetzen
+      const resetBtn = document.getElementById('resetProgressBtn');
+      if (resetBtn) {
+        resetBtn.addEventListener('click', async () => {
+          if (confirm('⚠️ Achtung! Dies löscht ALLE deine Fortschritte. Fortfahren?')) {
+            localStorage.clear();
+            window.location.reload();
+          }
+        });
+      }
+    }
+    
+    // App starten
+    initApp();
+  </script>
+  
+  <!-- PWA Script (optional - bei Problemen auskommentieren) -->
+  <!-- <script src="js/pwa.js"></script> -->
+</body>
+</html>

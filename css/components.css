@@ -1,0 +1,247 @@
+/* components.css - Spezifische UI-Komponenten */
+
+/* Kachel-Grid */
+.tile-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+/* Kacheln (Tiles) */
+.tile {
+  background: var(--bg-secondary);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  border: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+}
+
+.tile:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Klassen-Kacheln */
+.grade-tile {
+  text-align: center;
+}
+
+.tile-icon {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 1rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-large {
+  font-size: 3rem;
+}
+
+.tile-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.tile-description {
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
+}
+
+/* Themen-Kacheln */
+.topic-tile {
+  text-align: left;
+}
+
+.tile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.tile-icon-small {
+  font-size: 2rem;
+}
+
+.difficulty-badge {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 1rem;
+  background: var(--bg-primary);
+}
+
+.topic-meta {
+  display: flex;
+  justify-content: space-between;
+  margin: 0.75rem 0;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.btn-start {
+  width: 100%;
+  padding: 0.5rem;
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-weight: 600;
+  margin-top: 0.5rem;
+  transition: background 0.2s;
+}
+
+.btn-start:hover {
+  background: var(--accent-hover);
+}
+
+.completion-badge {
+  background: var(--success);
+  color: white;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.5rem;
+  text-align: center;
+  font-size: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+/* Fortschrittsbalken */
+.progress-container {
+  background: var(--border);
+  border-radius: 1rem;
+  overflow: hidden;
+  margin: 1rem 0;
+  height: 2rem;
+}
+
+.progress-bar {
+  background: linear-gradient(90deg, var(--accent), var(--success));
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: width 0.3s ease;
+  color: white;
+  font-weight: 600;
+  font-size: 0.75rem;
+}
+
+/* Dashboard Header */
+.dashboard-header {
+  margin-bottom: 2rem;
+}
+
+.user-stats {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  background: var(--bg-secondary);
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+}
+
+/* Navigation */
+.sidebar-nav {
+  flex: 1;
+  margin: 2rem 0;
+}
+
+.nav-link {
+  display: block;
+  padding: 0.75rem;
+  margin: 0.25rem 0;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  color: var(--text-primary);
+  transition: background 0.2s;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  background: var(--accent);
+  color: white;
+}
+
+.sidebar-btn {
+  width: 100%;
+  padding: 0.5rem;
+  margin: 0.25rem 0;
+  background: var(--bg-primary);
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  cursor: pointer;
+  color: var(--text-primary);
+}
+
+.sidebar-btn.danger {
+  border-color: var(--danger);
+  color: var(--danger);
+}
+
+/* Back Button */
+.back-button {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  margin-bottom: 1rem;
+  display: inline-block;
+}
+
+/* Loading & Error */
+.loading-spinner {
+  text-align: center;
+  padding: 2rem;
+  color: var(--text-secondary);
+}
+
+.error-message {
+  background: var(--danger);
+  color: white;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  margin: 1rem 0;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 3rem;
+  color: var(--text-secondary);
+}
+
+/* Tablet Optimierungen */
+@media (max-width: 1024px) and (orientation: portrait) {
+  .tile-grid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  }
+  
+  .tile {
+    padding: 1rem;
+  }
+}
+
+/* Touch-Optimierungen */
+@media (hover: none) and (pointer: coarse) {
+  .tile,
+  .btn-start,
+  .nav-link {
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  .btn-start {
+    padding: 0.75rem;
+    font-size: 1rem;
+  }
+}

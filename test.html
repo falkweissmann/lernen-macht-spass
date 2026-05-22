@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Test</title>
+    <style>
+        body { font-family: Arial; padding: 20px; }
+        .success { color: green; }
+        .error { color: red; }
+        pre { background: #f0f0f0; padding: 10px; overflow: auto; }
+    </style>
+</head>
+<body>
+    <h1>Diagnose-Test</h1>
+    
+    <h2>1. JavaScript Test:</h2>
+    <div id="jsTest">Wird getestet...</div>
+    
+    <h2>2. JSON-Daten Test:</h2>
+    <div id="jsonTest">Wird geladen...</div>
+    
+    <h2>3. renderer.js Test:</h2>
+    <div id="rendererTest">Wird getestet...</div>
+    
+    <h2>4. Dashboard Test:</h2>
+    <div id="dashboardTest"></div>
+
+    <script>
+        // Test 1: JavaScript funktioniert
+        document.getElementById('jsTest').innerHTML = '<span class="success">✅ JavaScript funktioniert!</span>';
+        
+        // Test 2: JSON-Daten laden
+        async function testJSON() {
+            try {
+                const subjectsRes = await fetch('./data/subjects.json');
+                if (!subjectsRes.ok) throw new Error('HTTP ' + subjectsRes.status);
+                const subjects = await subjectsRes.json();
+                document.getElementById('jsonTest').innerHTML = '<span class="success">✅ subjects.json geladen: ' + JSON.stringify(subjects).substring(0, 200) + '...</span>';
+            } catch (error) {
+                document.getElementById('jsonTest').innerHTML = '<span class="error">❌ Fehler: ' + error.message + '</span>';
+            }
+        }
+        testJSON();
+        
+        // Test 3: renderer.js laden
+        async function testRenderer() {
+            try {
+                const module = await import('./js/renderer.js');
+                document.getElementById('rendererTest').innerHTML = '<span class="success">✅ renderer.js geladen. Exporte: ' + Object.keys(module).join(', ') + '</span>';
+                
+                // Test 4: Dashboard rendern
+                if (module.renderGradeTiles) {
+                    const subjects = [
+                        { id: "class5", name: "Klasse 5", grade: 5, icon: "🔢", color: "#3b82f6", active: true },
+                        { id: "class6", name: "Klasse 6", grade: 6, icon: "📐", color: "#10b981", active: true }
+                    ];
+                    
+                    const container = document.getElementById('dashboardTest');
+                    container.innerHTML = '<div id="gradeContainer"></div>';
+                    
+                    module.renderGradeTiles(subjects, 'gradeContainer', (id) => {
+                        console.log('Geklickt:', id);
+                        alert('Klasse ' + id + ' ausgewählt!');
+                    });
+                    
+                    document.getElementById('dashboardTest').innerHTML += '<div class="success">✅ Dashboard wurde gerendert</div>';
+                }
+            } catch (error) {
+                document.getElementById('rendererTest').innerHTML = '<span class="error">❌ Fehler: ' + error.message + '</span>';
+            }
+        }
+        testRenderer();
+    </script>
+</body>
+</html>

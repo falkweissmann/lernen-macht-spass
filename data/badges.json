@@ -1,0 +1,204 @@
+{
+  "badges": [
+    {
+      "id": "first_steps",
+      "name": "Erste Schritte",
+      "description": "Die erste Aufgabe erfolgreich gelöst",
+      "icon": "🌱",
+      "category": "progress",
+      "requirement": {
+        "type": "tasks_completed",
+        "threshold": 1
+      },
+      "points": 10,
+      "rarity": "common"
+    },
+    {
+      "id": "math_apprentice",
+      "name": "Mathe-Lehrling",
+      "description": "10 Aufgaben erfolgreich gelöst",
+      "icon": "📚",
+      "category": "progress",
+      "requirement": {
+        "type": "tasks_completed",
+        "threshold": 10
+      },
+      "points": 50,
+      "rarity": "common"
+    },
+    {
+      "id": "math_master",
+      "name": "Mathe-Meister",
+      "description": "50 Aufgaben erfolgreich gelöst",
+      "icon": "🎓",
+      "category": "progress",
+      "requirement": {
+        "type": "tasks_completed",
+        "threshold": 50
+      },
+      "points": 200,
+      "rarity": "rare"
+    },
+    {
+      "id": "algebra_genius",
+      "name": "Algebra-Genie",
+      "description": "Alle Algebra-Themen abgeschlossen",
+      "icon": "⚖️",
+      "category": "topic",
+      "requirement": {
+        "type": "topic_completion",
+        "topicCategory": "algebra",
+        "threshold": 5
+      },
+      "points": 100,
+      "rarity": "rare"
+    },
+    {
+      "id": "geometry_hero",
+      "name": "Geometry-Held",
+      "description": "Alle Geometrie-Themen abgeschlossen",
+      "icon": "📐",
+      "category": "topic",
+      "requirement": {
+        "type": "topic_completion",
+        "topicCategory": "geometry",
+        "threshold": 5
+      },
+      "points": 100,
+      "rarity": "rare"
+    },
+    {
+      "id": "perfect_score",
+      "name": "Perfekte Punktzahl",
+      "description": "Eine Aufgabe mit 100% Punktzahl gelöst",
+      "icon": "⭐",
+      "category": "performance",
+      "requirement": {
+        "type": "perfect_score",
+        "threshold": 1
+      },
+      "points": 25,
+      "rarity": "uncommon"
+    },
+    {
+      "id": "speed_demon",
+      "name": "Tempo-Teufel",
+      "description": "Eine Aufgabe in unter 30 Sekunden gelöst",
+      "icon": "⚡",
+      "category": "performance",
+      "requirement": {
+        "type": "speed_solve",
+        "maxSeconds": 30,
+        "threshold": 1
+      },
+      "points": 30,
+      "rarity": "uncommon"
+    },
+    {
+      "id": "streak_7",
+      "name": "Wöchentlicher Held",
+      "description": "7 Tage in Folge gelernt",
+      "icon": "🔥",
+      "category": "streak",
+      "requirement": {
+        "type": "streak",
+        "threshold": 7
+      },
+      "points": 75,
+      "rarity": "rare"
+    },
+    {
+      "id": "streak_30",
+      "name": "Monats-Champion",
+      "description": "30 Tage in Folge gelernt",
+      "icon": "🏆",
+      "category": "streak",
+      "requirement": {
+        "type": "streak",
+        "threshold": 30
+      },
+      "points": 300,
+      "rarity": "epic"
+    },
+    {
+      "id": "perfect_week",
+      "name": "Perfekte Woche",
+      "description": "7 Tage lang alle täglichen Challenges abgeschlossen",
+      "icon": "📅",
+      "category": "challenge",
+      "requirement": {
+        "type": "daily_challenge_streak",
+        "threshold": 7
+      },
+      "points": 150,
+      "rarity": "epic"
+    },
+    {
+      "id": "topic_explorer",
+      "name": "Themen-Entdecker",
+      "description": "5 verschiedene Themenbereiche erkundet",
+      "icon": "🗺️",
+      "category": "exploration",
+      "requirement": {
+        "type": "unique_topics",
+        "threshold": 5
+      },
+      "points": 40,
+      "rarity": "common"
+    },
+    {
+      "id": "boss_slayer",
+      "name": "Besieger des Boss-Levels",
+      "description": "Ein Boss-Level erfolgreich abgeschlossen",
+      "icon": "👑",
+      "category": "boss",
+      "requirement": {
+        "type": "boss_defeated",
+        "threshold": 1
+      },
+      "points": 150,
+      "rarity": "epic"
+    },
+    {
+      "id": "perfect_grade",
+      "name": "1.0 Schüler",
+      "description": "Durchschnittliche Punktzahl von 90% oder mehr",
+      "icon": "📊",
+      "category": "performance",
+      "requirement": {
+        "type": "average_score",
+        "minPercent": 90
+      },
+      "points": 200,
+      "rarity": "legendary"
+    },
+    {
+      "id": "late_night_learner",
+      "name": "Nachtlerner",
+      "description": "Eine Aufgabe nach Mitternacht gelöst",
+      "icon": "🌙",
+      "category": "special",
+      "requirement": {
+        "type": "time_based",
+        "hourStart": 0,
+        "hourEnd": 5
+      },
+      "points": 15,
+      "rarity": "common"
+    },
+    {
+      "id": "early_bird",
+      "name": "Frühaufsteher",
+      "description": "Eine Aufgabe vor 6 Uhr morgens gelöst",
+      "icon": "🌅",
+      "category": "special",
+      "requirement": {
+        "type": "time_based",
+        "hourStart": 5,
+        "hourEnd": 7
+      },
+      "points": 15,
+      "rarity": "common"
+    }
+  ]
+}

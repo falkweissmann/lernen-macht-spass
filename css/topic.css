@@ -1,0 +1,327 @@
+/* topic.css - Spezifische Styles für Themen-Ansicht */
+
+/* Topic Header */
+.topic-header {
+  text-align: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid var(--border);
+}
+
+.topic-icon {
+  font-size: 3rem;
+  display: inline-block;
+}
+
+.topic-header h1 {
+  font-size: 2rem;
+  margin: 0.5rem 0;
+}
+
+.topic-meta {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin: 1rem 0;
+  color: var(--text-secondary);
+}
+
+.topic-description {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Content Container */
+.topic-content-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 1rem 0;
+}
+
+/* Content Blöcke */
+.content-text {
+  margin: 1.5rem 0;
+  line-height: 1.6;
+}
+
+.content-text h2 {
+  margin: 1.5rem 0 1rem 0;
+}
+
+.content-text h3 {
+  margin: 1rem 0 0.5rem 0;
+}
+
+/* Bilder */
+.content-image {
+  margin: 1.5rem 0;
+  text-align: center;
+}
+
+.content-image img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+  box-shadow: var(--shadow);
+}
+
+.caption {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  margin-top: 0.5rem;
+}
+
+/* Video Container (Responsive) */
+.video-container {
+  position: relative;
+  padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+  height: 0;
+  overflow: hidden;
+  margin: 1.5rem 0;
+}
+
+.video-container iframe,
+.video-container video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 0.5rem;
+}
+
+/* Audio */
+.content-audio {
+  margin: 1.5rem 0;
+  padding: 1rem;
+  background: var(--bg-secondary);
+  border-radius: 0.5rem;
+  text-align: center;
+}
+
+.content-audio audio {
+  width: 100%;
+}
+
+/* PDF */
+.content-pdf {
+  margin: 1.5rem 0;
+}
+
+.pdf-link {
+  display: inline-block;
+  padding: 0.75rem 1rem;
+  background: var(--accent);
+  color: white;
+  text-decoration: none;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.pdf-embed {
+  width: 100%;
+  height: 500px;
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+}
+
+/* Mathematik */
+.math-display {
+  margin: 1.5rem 0;
+  padding: 1rem;
+  background: var(--bg-secondary);
+  border-radius: 0.5rem;
+  overflow-x: auto;
+}
+
+.math-block {
+  text-align: center;
+  font-size: 1.2rem;
+}
+
+.math-inline {
+  display: inline-block;
+  padding: 0 0.25rem;
+}
+
+/* Hinweise */
+.content-hint {
+  margin: 1.5rem 0;
+  padding: 1rem;
+  background: #fef3c7;
+  border-left: 4px solid #f59e0b;
+  border-radius: 0.5rem;
+}
+
+.dark-mode .content-hint {
+  background: #451a03;
+  border-left-color: #f59e0b;
+}
+
+.hint-title {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+/* Spoiler */
+.content-spoiler {
+  margin: 1.5rem 0;
+}
+
+details {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+}
+
+summary {
+  cursor: pointer;
+  font-weight: bold;
+  padding: 0.5rem;
+  user-select: none;
+}
+
+summary:hover {
+  background: var(--bg-primary);
+  border-radius: 0.5rem;
+}
+
+.spoiler-content {
+  padding: 1rem;
+  margin-top: 0.5rem;
+  border-top: 1px solid var(--border);
+}
+
+/* Zitate */
+.content-quote {
+  margin: 1.5rem 0;
+}
+
+blockquote {
+  margin: 0;
+  padding: 1rem 2rem;
+  background: var(--bg-secondary);
+  border-left: 4px solid var(--accent);
+  font-style: italic;
+  border-radius: 0.5rem;
+}
+
+blockquote footer {
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+/* Code */
+.content-code {
+  margin: 1.5rem 0;
+}
+
+pre {
+  background: #1e293b;
+  color: #e2e8f0;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  overflow-x: auto;
+  font-family: 'Courier New', monospace;
+  font-size: 0.875rem;
+}
+
+code {
+  font-family: 'Courier New', monospace;
+}
+
+/* Separator */
+.content-separator {
+  margin: 2rem 0;
+  border: none;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border), transparent);
+}
+
+/* GeoGebra */
+.content-geogebra {
+  margin: 1.5rem 0;
+  text-align: center;
+}
+
+.geogebra-container {
+  margin: 0 auto;
+  max-width: 100%;
+}
+
+/* Abschluss-Button */
+.topic-footer {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.btn-complete {
+  padding: 1rem 2rem;
+  background: var(--success);
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.btn-complete:hover {
+  transform: translateY(-2px);
+}
+
+.btn-complete:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Loading Spinner */
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 3px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 2rem auto;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .topic-header h1 {
+    font-size: 1.5rem;
+  }
+  
+  .topic-meta {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .topic-content-container {
+    padding: 0 1rem;
+  }
+  
+  .pdf-embed {
+    height: 300px;
+  }
+}
+
+/* Tablet Touch Optimierung */
+@media (hover: none) and (pointer: coarse) {
+  details summary {
+    padding: 0.75rem;
+  }
+  
+  .btn-complete {
+    padding: 1rem;
+    font-size: 1.1rem;
+  }
+}
